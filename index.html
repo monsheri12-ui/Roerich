@@ -132,8 +132,8 @@
   function hl(t,q){var s=esc(t); if(!q) return s;
     var r=q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
     var pat = state.mode==="word"
-      ? '(^|[^\u0410-\u042f\u0430-\u044f\u0401\u0451\u04e8\u04e9\u04ae\u04afA-Za-z0-9-])('+r+')(?=$|[^\u0410-\u042f\u0430-\u044f\u0401\u0451\u04e8\u04e9\u04ae\u04afA-Za-z0-9-])'
-      : '()('+r+')';
+      ? '(^|[^\u0410-\u042f\u0430-\u044f\u0401\u0451\u04e8\u04e9\u04ae\u04afA-Za-z0-9-])('+r+'[\\u0F35\\u0F37\\u0F39\\u0F71-\\u0F87\\u0F90-\\u0FBC]*)(?=$|[^\u0410-\u042f\u0430-\u044f\u0401\u0451\u04e8\u04e9\u04ae\u04afA-Za-z0-9-])'
+      : '()('+r+'[\\u0F35\\u0F37\\u0F39\\u0F71-\\u0F87\\u0F90-\\u0FBC]*)';
     try{return s.replace(new RegExp(pat,'gi'),'$1<mark>$2</mark>');}catch(e){return s;}}
 
   function wnorm(s){return norm(s).replace(/[\u2019\u02BC\u0060\u00B4]/g,"'");}
@@ -145,23 +145,34 @@
     var q=norm(state.q);
     if(!q){ $count.textContent=state.ready?'Словарь загружен. Введите слово.':'';
             $res.innerHTML=''; return; }
+    var exact=/[\u0F0D\u0F0E\/]\s*$/.test(state.q||"");
+    if(exact) q=q.replace(/\/+\s*$/,"").trim();
     var list;
     if(state.mode==="wylie"){
-      var wq=wnorm(state.q);
+      var wq=wnorm(state.q).replace(/\/+\s*$/,"").trim();
       var ws=[];
       pool().forEach(function(e){
         var t=wnorm(e.translit);
         if(!t) return;
         var s=null;
         if(t===wq) s=0;
-        else if(t.indexOf(wq)===0) s=1;
-        else if(t.indexOf(wq)>-1) s=2;
+        else if(!exact && t.indexOf(wq)===0) s=1;
+        else if(!exact && t.indexOf(wq)>-1) s=2;
         if(s!==null) ws.push([s,t.length,e]);
       });
       ws.sort(function(a,b){return a[0]-b[0]||a[1]-b[1];});
       list=ws.map(function(x){return x[2];});
     } else if(state.mode==="start"){
-      list=pool().filter(function(e){return norm(e.hw).indexOf(q)===0 || norm(e.translit).indexOf(q)===0;});
+      if(exact){
+        list=pool().filter(function(e){return norm(e.hw)===q || norm(e.translit)===q;});
+      } else {
+        list=pool().filter(function(e){return norm(e.hw).indexOf(q)===0 || norm(e.translit).indexOf(q)===0;});
+        list.sort(function(a,b){
+          var ax=(norm(a.hw)===q||norm(a.translit)===q)?0:1;
+          var bx=(norm(b.hw)===q||norm(b.translit)===q)?0:1;
+          return ax-bx || a.hw.length-b.hw.length;
+        });
+      }
     } else if(state.mode==="word"){
       var rq=q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
       var wre=new RegExp('(^|[^\u0430-\u044f\u0451\u04e9\u04afa-z0-9-])'+rq+'($|[^\u0430-\u044f\u0451\u04e9\u04afa-z0-9-])','i');
