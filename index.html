@@ -148,7 +148,9 @@
     var exact=/[\u0F0D\u0F0E\/]\s*$/.test(state.q||"");
     if(exact) q=q.replace(/\/+\s*$/,"").trim();
     var list;
-    if(state.mode==="wylie"){
+    if(exact){
+      list=pool().filter(function(e){return norm(e.hw)===q || wnorm(e.translit)===wnorm(state.q).replace(/\/+\s*$/,"").trim();});
+    } else if(state.mode==="wylie"){
       var wq=wnorm(state.q).replace(/\/+\s*$/,"").trim();
       var ws=[];
       pool().forEach(function(e){
@@ -186,6 +188,14 @@
     } else {
       list=pool().filter(function(e){
         return norm(e.hw).indexOf(q)>-1 || norm(e.translit).indexOf(q)>-1 || norm(e.ru).indexOf(q)>-1;});
+      list.sort(function(a,b){
+        function rank(e){var h=norm(e.hw),t=norm(e.translit);
+          if(h===q||t===q) return 0;
+          if(h.indexOf(q)===0||t.indexOf(q)===0) return 1;
+          if(h.indexOf(q)>-1||t.indexOf(q)>-1) return 2;
+          return 3;}
+        return rank(a)-rank(b) || a.ru.length-b.ru.length;
+      });
     }
     $count.textContent=list.length?('Найдено статей: '+list.length):'';
     if(!list.length){
