@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Тибетско-русский словарь Ю. Н. Рериха — поиск</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Tibetan:wght@400;500&family=PT+Serif:ital,wght@0,400;0,700;1,400&family=PT+Sans:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #fdfcf8; }
+  .mtr-dict {
+    --paper:#fdfcf8; --ink:#262119; --ink-soft:#6b6156;
+    --cinnabar:#a03328; --indigo:#32436b; --gold:#a37f2c;
+    --line:#e4ddd0; --hl:#f6e8b8;
+    font-family:'PT Serif',Georgia,serif; color:var(--ink);
+    max-width:760px; margin:0 auto; padding:28px 20px 48px; line-height:1.55;
+  }
+  .mtr-dict * { box-sizing:border-box; }
+  .mtr-head { text-align:center; margin-bottom:22px; }
+  .mtr-head .mtr-orn { color:var(--cinnabar); font-family:'Noto Serif Tibetan',serif; font-size:20px; letter-spacing:6px; }
+  .mtr-head h1 { font-weight:700; font-size:24px; margin:6px 0 4px; letter-spacing:.02em; }
+  .mtr-head .mtr-sub { font-family:'PT Sans',sans-serif; font-size:13px; color:var(--ink-soft); }
+  .mtr-load { font-family:'PT Sans',sans-serif; font-size:12px; color:var(--ink-soft);
+    text-align:center; margin-bottom:10px; }
+  .mtr-load .bar { height:3px; background:var(--line); border-radius:2px; margin-top:5px; overflow:hidden; }
+  .mtr-load .bar i { display:block; height:100%; width:0; background:var(--cinnabar); transition:width .3s; }
+  .mtr-search { position:relative; margin-bottom:14px; }
+  .mtr-search input { width:100%; font-family:'PT Serif',serif; font-size:18px; color:var(--ink);
+    background:#fff; border:1px solid var(--line); border-bottom:2px solid var(--cinnabar);
+    border-radius:4px; padding:13px 44px 13px 16px; outline:none; }
+  .mtr-search input:focus { box-shadow:0 2px 10px rgba(160,51,40,.10); }
+  .mtr-clear { position:absolute; right:8px; top:50%; transform:translateY(-50%);
+    border:none; background:none; cursor:pointer; font-size:18px; color:var(--ink-soft);
+    padding:6px 8px; display:none; }
+  .mtr-opts { display:flex; gap:8px; flex-wrap:wrap; font-family:'PT Sans',sans-serif; margin-bottom:20px; }
+  .mtr-opts button { font-family:inherit; font-size:13px; border:1px solid var(--line);
+    background:#fff; color:var(--ink-soft); border-radius:20px; padding:6px 14px; cursor:pointer; }
+  .mtr-opts button.on { background:var(--cinnabar); border-color:var(--cinnabar); color:#fff; }
+  .mtr-count { font-family:'PT Sans',sans-serif; font-size:12px; color:var(--ink-soft); margin-bottom:10px; }
+  .mtr-entry { border-top:1px solid var(--line); padding:15px 2px 17px; }
+  .mtr-entry:last-of-type { border-bottom:1px solid var(--line); }
+  .mtr-hw-row { display:flex; align-items:baseline; gap:12px; flex-wrap:wrap; }
+  .mtr-hw { color:var(--cinnabar); font-weight:700; font-size:23px; }
+  .mtr-hw.tib { font-family:'Noto Serif Tibetan',serif; font-weight:500; font-size:27px; line-height:1.3; }
+  .mtr-translit { color:var(--indigo); font-style:italic; font-size:15px; }
+  .mtr-langtag { font-family:'PT Sans',sans-serif; font-size:10px; font-weight:700; letter-spacing:.12em;
+    color:var(--gold); border:1px solid currentColor; border-radius:3px; padding:1px 6px;
+    text-transform:uppercase; margin-left:auto; white-space:nowrap; }
+  .mtr-body { margin-top:5px; font-size:16px; }
+  .mtr-src { margin-top:4px; font-family:'PT Sans',sans-serif; font-size:11px; color:var(--ink-soft); opacity:.75; }
+  mark { background:var(--hl); color:inherit; padding:0 1px; }
+  .mtr-empty { text-align:center; padding:40px 10px; color:var(--ink-soft); font-style:italic; }
+  .mtr-more { display:block; margin:18px auto 0; font-family:'PT Sans',sans-serif; font-size:14px;
+    background:none; border:1px solid var(--cinnabar); color:var(--cinnabar); border-radius:4px;
+    padding:9px 22px; cursor:pointer; }
+  .mtr-more:hover { background:var(--cinnabar); color:#fff; }
+  @media (max-width:480px){ .mtr-dict{padding:18px 12px 36px;} .mtr-hw{font-size:20px;} }
+</style>
+</head>
+<body>
+<div class="mtr-dict">
+  <div class="mtr-head">
+    <div class="mtr-orn" aria-hidden="true">༄༅།</div>
+    <h1>Словарь Ю.&nbsp;Н.&nbsp;Рериха</h1>
+    <div class="mtr-sub">Тибетско-русско-английский словарь с санскритскими параллелями · 53&nbsp;026 статей</div>
+  </div>
+
+  <div class="mtr-load" id="mtrLoad">Загрузка словаря…<div class="bar"><i id="mtrBar"></i></div></div>
+
+  <div class="mtr-search">
+    <input id="mtrQ" type="search" autocomplete="off"
+           placeholder="Поиск: тибетское слово, Вайли или перевод…"
+           aria-label="Поиск по словарю">
+    <button class="mtr-clear" id="mtrClear" aria-label="Очистить">✕</button>
+  </div>
+
+  <div class="mtr-opts" role="group" aria-label="Режим поиска">
+    <button data-mode="wylie" class="on">Вайли (латиницей)</button>
+    <button data-mode="start">По началу слова</button>
+    <button data-mode="any">Везде (и в переводах)</button>
+    <button data-mode="word">По значению</button>
+  </div>
+
+  <div class="mtr-count" id="mtrCount"></div>
+  <div id="mtrResults" aria-live="polite"></div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  var BASE = "";           // папка с JSON-файлами
+  var PAGE = 50;
+  var state = { q:"", mode:"wylie", langf:"all", shown:PAGE, data:[], ready:false };
+
+  var $q=document.getElementById('mtrQ'), $clear=document.getElementById('mtrClear'),
+      $res=document.getElementById('mtrResults'), $count=document.getElementById('mtrCount'),
+      $load=document.getElementById('mtrLoad'), $bar=document.getElementById('mtrBar'),
+      $opts=document.querySelectorAll('.mtr-opts [data-mode]');
+
+  function norm(s){return (s||"").toString().normalize("NFC").toLowerCase()
+    .replace(/ё/g,"е")
+    .replace(/\u0F0C/g,"\u0F0B")
+    .replace(/[\u0F0D\u0F0E\u0F14]/g,"")
+    .replace(/[\u0F0B\s]+$/,"").replace(/^[\u0F0B\s]+/,"")
+    .replace(/\s+/g," ").trim();}
+  function esc(s){return (s||"").replace(/[&<>"']/g,function(c){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+  var POMETA=/(^|\s)(ном|яриа|шилж|хуучир|цэрэг|амьт|ург|б\u04e9\u04e9|з\u04af\u0439р|\u04af\u0433чил|хорш|этг|тусг|шашин|анаг|хууль|х\u04e9гжим|тоо|од|газар|т\u04af\u04afх|утга|хэл|барил|асуух|олон|харьяал|нэгэнтээ|\u04af\u0439лд\u04af\u04afл|\u04af\u0439лдэгд|сургаал|цэн|х\u04af\u04afндэтгэл|егөө)\.(?=\s|$)/g;
+  function senses(ru){
+    var parts=(ru||"").split(";"), out=[];
+    for(var i=0;i<parts.length;i++){
+      var p=parts[i].trim();
+      if(i===0||/^[ivx\d]+[).]/i.test(p)) out.push(p.replace(POMETA, "$1"));
+    }
+    return out;
+  }
+  function mScore(e,q,wre){
+    if(wre.test(norm(e.hw)) || (e.translit && norm(e.translit)===q)) return -1;
+    var ss=senses(e.ru), best=null;
+    for(var i=0;i<ss.length;i++){
+      var toks=ss[i].split(",");
+      for(var j=0;j<toks.length;j++){
+        var t=norm(toks[j]).replace(/^[ivx\d).\s]+/,"").replace(/^санскр\.\s*\S+\s*[—–-]\s*/,"");
+        if(t===q || t.indexOf(q+" ")===0){ var s=i*10+Math.min(j,9); if(best===null||s<best) best=s; }
+      }
+    }
+    if(best!==null) return best;
+    for(var k=0;k<ss.length;k++) if(wre.test(norm(ss[k]))) return 500+k;
+    return null;
+  }
+  function hl(t,q){var s=esc(t); if(!q) return s;
+    var r=q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+    var pat = state.mode==="word"
+      ? '(^|[^\u0410-\u042f\u0430-\u044f\u0401\u0451\u04e8\u04e9\u04ae\u04afA-Za-z0-9-])('+r+')(?=$|[^\u0410-\u042f\u0430-\u044f\u0401\u0451\u04e8\u04e9\u04ae\u04afA-Za-z0-9-])'
+      : '()('+r+')';
+    try{return s.replace(new RegExp(pat,'gi'),'$1<mark>$2</mark>');}catch(e){return s;}}
+
+  function wnorm(s){return norm(s).replace(/[\u2019\u02BC\u0060\u00B4]/g,"'");}
+  function pool(){
+    if(state.langf==="all") return state.data;
+    return state.data.filter(function(e){ return (e.lang||"mn")===state.langf; });
+  }
+  function render(){
+    var q=norm(state.q);
+    if(!q){ $count.textContent=state.ready?'Словарь загружен. Введите слово.':'';
+            $res.innerHTML=''; return; }
+    var list;
+    if(state.mode==="wylie"){
+      var wq=wnorm(state.q);
+      var ws=[];
+      pool().forEach(function(e){
+        var t=wnorm(e.translit);
+        if(!t) return;
+        var s=null;
+        if(t===wq) s=0;
+        else if(t.indexOf(wq)===0) s=1;
+        else if(t.indexOf(wq)>-1) s=2;
+        if(s!==null) ws.push([s,t.length,e]);
+      });
+      ws.sort(function(a,b){return a[0]-b[0]||a[1]-b[1];});
+      list=ws.map(function(x){return x[2];});
+    } else if(state.mode==="start"){
+      list=pool().filter(function(e){return norm(e.hw).indexOf(q)===0 || norm(e.translit).indexOf(q)===0;});
+    } else if(state.mode==="word"){
+      var rq=q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+      var wre=new RegExp('(^|[^\u0430-\u044f\u0451\u04e9\u04afa-z0-9-])'+rq+'($|[^\u0430-\u044f\u0451\u04e9\u04afa-z0-9-])','i');
+      var scored=[];
+      pool().forEach(function(e){
+        var s=mScore(e,q,wre);
+        if(s!==null) scored.push([s,e]);
+      });
+      scored.sort(function(a,b){ return a[0]-b[0] || a[1].ru.length-b[1].ru.length; });
+      list=scored.map(function(x){ return x[1]; });
+    } else {
+      list=pool().filter(function(e){
+        return norm(e.hw).indexOf(q)>-1 || norm(e.translit).indexOf(q)>-1 || norm(e.ru).indexOf(q)>-1;});
+    }
+    $count.textContent=list.length?('Найдено статей: '+list.length):'';
+    if(!list.length){
+      $res.innerHTML='<div class="mtr-empty">Ничего не найдено'+
+        (state.mode==="wylie"?' по транслитерации Вайли — проверьте написание (напр. chos, sangs rgyas).':state.mode==="start"?' по началу слова — попробуйте режим «Везде».':(state.mode==="word"?' среди значений — попробуйте режим «Везде».':'.'))+'</div>';
+      return;
+    }
+    var html=list.slice(0,state.shown).map(function(e){
+      var tib=(e.lang==="bo");
+      return '<div class="mtr-entry"><div class="mtr-hw-row">'+
+        '<span class="mtr-hw'+(tib?' tib':'')+'">'+hl(e.hw,state.q)+'</span>'+
+        (e.translit?'<span class="mtr-translit">'+hl(e.translit,state.q)+'</span>':'')+
+        '</div>'+
+        '<div class="mtr-body">'+hl(e.ru,state.q)+'</div>'+
+        (e.src?'<div class="mtr-src">'+esc(e.src)+'</div>':'')+'</div>';
+    }).join('');
+    if(list.length>state.shown)
+      html+='<button class="mtr-more" id="mtrMore">Показать ещё ('+(list.length-state.shown)+')</button>';
+    $res.innerHTML=html;
+    var m=document.getElementById('mtrMore');
+    if(m)m.addEventListener('click',function(){state.shown+=PAGE;render();});
+  }
+
+  var timer=null;
+  $q.addEventListener('input',function(){
+    clearTimeout(timer);
+    timer=setTimeout(function(){
+      state.q=$q.value; state.shown=PAGE;
+      $clear.style.display=$q.value?'block':'none'; render();
+    },140);
+  });
+  $clear.addEventListener('click',function(){
+    $q.value=''; state.q=''; state.shown=PAGE;
+    $clear.style.display='none'; render(); $q.focus();
+  });
+  $opts.forEach(function(b){
+    b.addEventListener('click',function(){
+      $opts.forEach(function(x){x.classList.remove('on');});
+      b.classList.add('on'); state.mode=b.getAttribute('data-mode');
+      state.shown=PAGE; render();
+    });
+  });
+
+  // Постепенная загрузка всех частей словаря
+  fetch(BASE+"index.json").then(function(r){return r.json();}).then(function(idx){
+    var done=0;
+    function next(i){
+      if(i>=idx.length){
+        state.ready=true;
+        $load.textContent='Загружено статей: '+state.data.length;
+        setTimeout(function(){$load.style.display='none';},1500);
+        render(); return;
+      }
+      fetch(BASE+idx[i].file).then(function(r){return r.json();}).then(function(part){
+        state.data=state.data.concat(part);
+        done++; $bar.style.width=Math.round(done/idx.length*100)+'%';
+        if(state.q) render();
+        next(i+1);
+      }).catch(function(){next(i+1);});
+    }
+    next(0);
+  }).catch(function(){
+    $load.textContent='Не удалось загрузить данные словаря. Проверьте, что папка data/ лежит рядом с этой страницей.';
+  });
+})();
+</script>
+</body>
+</html>
